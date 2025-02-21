@@ -1,0 +1,30 @@
+steps:
+  # Build da imagem do Publicador
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/publicador', './pub']
+  
+  # Push da imagem do Publicador para o Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/publicador']
+
+  # Deploy do Publicador no Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: ['run', 'deploy', 'publicador', '--image', 'gcr.io/$PROJECT_ID/publicador', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
+
+  # Build da imagem do Consumidor
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/consumidor', './sub']
+
+  # Push da imagem do Consumidor para o Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/consumidor']
+
+  # Deploy do Consumidor no Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: ['run', 'deploy', 'consumidor', '--image', 'gcr.io/$PROJECT_ID/consumidor', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
+
+images:
+  - gcr.io/$PROJECT_ID/publicador
+  - gcr.io/$PROJECT_ID/consumidor
