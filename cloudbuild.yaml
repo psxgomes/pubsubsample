@@ -28,3 +28,6 @@ steps:
 images:
   - gcr.io/$PROJECT_ID/publicador
   - gcr.io/$PROJECT_ID/consumidor
+
+options: 
+  logging: CLOUD_LOGGING_ONLY
