@@ -10,7 +10,7 @@ steps:
   # Deploy do Publicador no Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: ['run', 'deploy', 'publicador', '--image', 'gcr.io/$PROJECT_ID/publicador', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'pub', '--image', 'gcr.io/$PROJECT_ID/pub', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
 
   # Build da imagem do Consumidor
   - name: 'gcr.io/cloud-builders/docker'
